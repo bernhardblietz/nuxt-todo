@@ -13,16 +13,27 @@ class TodoController(private val todoRepository: TodoRepository) {
     }
 
     @PostMapping
-    fun createTodo(@RequestBody todo: Todo): Todo {
-        return todoRepository.save(todo)
+    fun createTodo(@RequestBody request: TodoPostDTO): Todo {
+        val todo = Todo(
+        text = request.text,
+        completed = request.completed ?: false
+    )
+    return todoRepository.save(todo)
     }
 
     @PutMapping("/{id}")
-    fun updateTodo(@PathVariable id: Long, @RequestBody updatedTodo: Todo): ResponseEntity<Todo> {
-        if (!todoRepository.existsById(id)) {
+    fun updateTodo(@PathVariable id: Long, @RequestBody updatedTodo: TodoPutDTO): ResponseEntity<Todo> {
+        try {
+            val existingTodo = todoRepository.findById(id).orElseThrow()
+            val newTodo: Todo = existingTodo.copy(
+                text = updatedTodo.text ?: existingTodo.text,
+                completed = updatedTodo.completed ?: existingTodo.completed
+            )
+            return ResponseEntity.ok(todoRepository.save(newTodo))
+        }
+        catch (e: Exception) {
             return ResponseEntity.notFound().build()
         }
-        return ResponseEntity.ok(todoRepository.save(updatedTodo.copy(id = id)))
     }
 
     @DeleteMapping("/{id}")

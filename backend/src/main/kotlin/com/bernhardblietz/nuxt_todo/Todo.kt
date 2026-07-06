@@ -13,7 +13,16 @@ data class Todo (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    var title: String = "",
-    var description: String = "",
-    var done: Boolean = false  
+    var text: String = "",
+    var completed: Boolean = false
+)
+
+data class TodoPostDTO(
+    val text: String,
+    val completed: Boolean? = false
+)
+
+data class TodoPutDTO(
+    val text: String?,
+    val completed: Boolean? = false
 )

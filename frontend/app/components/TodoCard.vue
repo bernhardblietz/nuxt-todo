@@ -4,7 +4,7 @@
     }>();
 
     const todoItems = inject('todoItems') as {
-        markCompleted: (id: number) => void;
+        toggleCompleted: (id: number) => void;
         delete: (id: number) => void;
     };
 
@@ -16,7 +16,7 @@
         <p class="text-center">{{ props.todoItem.text }}</p>
         <div class="flex flex-row gap-2">
             <UButton icon="i-lucide-trash" @click="todoItems.delete(props.todoItem.id)"/>
-            <UButton :icon="props.todoItem.completed ? 'i-lucide-check' : 'i-lucide-square'" @click="todoItems.markCompleted(props.todoItem.id)"/>
+            <UButton :icon="props.todoItem.completed ? 'i-lucide-check' : 'i-lucide-square'" @click="todoItems.toggleCompleted(props.todoItem.id)"/>
         </div>
     </div>
 </template>

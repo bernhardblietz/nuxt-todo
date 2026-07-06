@@ -3,3 +3,13 @@ export type TodoItem = {
     text: string;
     completed: boolean;
 };
+
+export type TodoPostDTO = {
+    text: string;
+    completed?: boolean;
+};
+
+export type TodoPutDTO = {
+    text?: string;
+    completed?: boolean;
+};
